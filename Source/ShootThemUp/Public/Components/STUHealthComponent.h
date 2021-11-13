@@ -64,4 +64,5 @@ private:
     UFUNCTION()
     void AutoHealUpdate();
 
+    void SetHealth(float NewHealth);
 };
