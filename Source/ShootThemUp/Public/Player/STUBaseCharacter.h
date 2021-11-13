@@ -34,13 +34,16 @@ protected:
     UTextRenderComponent* HealthTextComponent;
 
     UPROPERTY(EditDefaultsOnly, Category = "Animation")
-        UAnimMontage* DeathAnimMontage;
+    UAnimMontage* DeathAnimMontage;
 
-    UPROPERTY(EditDefaultsOnly, Category = "Movement")
-        FVector2D LandedDamageVelocity = FVector2D(900.0f, 1200.0f);
+    UPROPERTY(EditDefaultsOnly, Category = "Damage")
+    float LifeSpanOnDeath = 5.0f;
 
-    UPROPERTY(EditDefaultsOnly, Category = "Movement")
-        FVector2D LandedDamage = FVector2D(10, 100);
+    UPROPERTY(EditDefaultsOnly, Category = "Damage")
+    FVector2D LandedDamageVelocity = FVector2D(900.0f, 1200.0f);
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage")
+    FVector2D LandedDamage = FVector2D(10, 100);
 
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
