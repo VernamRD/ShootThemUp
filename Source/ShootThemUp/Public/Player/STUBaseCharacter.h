@@ -33,6 +33,9 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     UTextRenderComponent* HealthTextComponent;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Animation")
+        UAnimMontage* DeathAnimMontage;
+
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
 
@@ -58,4 +61,7 @@ private:
 
     void OnStartRunning();
     void OnStopRunning();
+
+    void OnDeath();
+    void OnHealthChanged(float Health);
 };
