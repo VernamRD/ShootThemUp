@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "STUCoreTypes.h"
 #include "STUWeaponComponent.generated.h"
 
 class ASTUBaseWeapon;
