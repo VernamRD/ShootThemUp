@@ -21,6 +21,9 @@ public:
     float GetHealth() const { return Health; }
 
     UFUNCTION(BlueprintCallable, Category = "Health")
+    float GetHealthPercent() const {return Health / MaxHealth;}
+
+    UFUNCTION(BlueprintCallable, Category = "Health")
     float GetMaxHealth() const { return MaxHealth; }
 
     UFUNCTION(BlueprintCallable, Category = "Health")

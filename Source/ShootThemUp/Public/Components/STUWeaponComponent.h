@@ -22,6 +22,9 @@ public:
     void NextWeapon();
     void Reload();
 
+    bool GetWeaponUIData(FWeaponUIData& UIData) const;
+    bool GetWeaponAmmoData(FAmmoData& AmmoData) const;
+
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
     TArray<FWeaponData> WeaponData;
