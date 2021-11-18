@@ -27,6 +27,9 @@ public:
     float GetMaxHealth() const { return MaxHealth; }
 
     UFUNCTION(BlueprintCallable, Category = "Health")
+    bool IsHealthFull() const {return Health == MaxHealth;}
+
+    UFUNCTION(BlueprintCallable, Category = "Health")
     void Heal(const float HealAmount);
 
     UFUNCTION(BlueprintCallable, Category = "Health")
