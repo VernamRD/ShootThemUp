@@ -4,6 +4,9 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "Weapon/Components/STUWeaponFXComponent.h"
+#include "STUUtils.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogRifleWeapon, All, All);
 
 ASTURifleWeapon::ASTURifleWeapon() 
 {
@@ -30,16 +33,16 @@ void ASTURifleWeapon::StopFire()
 
 void ASTURifleWeapon::MakeShot()
 {
-    if (!GetWorld() || IsAmmoEmpty())
+    UE_LOG(LogRifleWeapon, Display, TEXT("timer"));
+
+    if (!CanFire())
     {
-        StopFire();
         return;
     }
 
     FVector TraceStart, TraceEnd;
     if (!GetTraceData(TraceStart, TraceEnd))
     {
-        StopFire();
         return;
     }
 

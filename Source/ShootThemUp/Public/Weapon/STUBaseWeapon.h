@@ -22,8 +22,12 @@ public:
     virtual void StartFire();
     virtual void StopFire();
 
+    bool CanFire() const;
     void ChangeClip();
+    void ReloadFinished();
+
     bool CanReload() const;
+    bool IsReloading() const {return Reloading;}
 
     FWeaponUIData GetUIData() const {return UIData;}
     FAmmoData GetAmmoData() const {return CurrentAmmo;}
@@ -63,6 +67,8 @@ protected:
     bool IsAmmoFull() const;
 
     void LogAmmo();
+
+    bool Reloading = false;
 
 private:
     FAmmoData CurrentAmmo;

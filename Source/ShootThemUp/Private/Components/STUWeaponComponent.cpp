@@ -96,7 +96,6 @@ void USTUWeaponComponent::EquipWeapon(int32 WeaponIndex)
 
 void USTUWeaponComponent::StartFire()
 {
-    if (!CanFire()) return;
     CurrentWeapon->StartFire();
 }
 
@@ -161,6 +160,7 @@ void USTUWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent
     if (!Character || Character->GetMesh() != MeshComponent) return;
 
     ReloadAnimInProgress = false;
+    CurrentWeapon->ReloadFinished();
 }
 
 bool USTUWeaponComponent::CanFire() const
@@ -207,7 +207,6 @@ void USTUWeaponComponent::OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon)
 void USTUWeaponComponent::ChangeClip()
 {
     if (!CanReload()) return;
-    CurrentWeapon->StopFire();
     CurrentWeapon->ChangeClip();
     ReloadAnimInProgress = true;
     PlayAnimMontage(CurrentReloadAnimMontage);
