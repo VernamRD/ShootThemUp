@@ -17,6 +17,9 @@ public:
     float GetHealthPercent() const;
 
     UFUNCTION(BlueprintCallable, Category = "UI")
+    float GetInvertHealthPercent() const;
+
+    UFUNCTION(BlueprintCallable, Category = "UI")
     bool GetCurrentWeaponUIData(FWeaponUIData& UIData) const;
 
     UFUNCTION(BlueprintCallable, Category = "UI")
@@ -27,4 +30,12 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "UI")
     bool IsPlayerSpectating() const;
+
+    UFUNCTION(BlueprintImplementableEvent, Category = "UI")
+    void OnTakeDamage(float HealthDelta);
+
+    virtual bool Initialize() override;
+
+private:
+    void OnHealthChanged(float Health, float HealthDelta);
 };
