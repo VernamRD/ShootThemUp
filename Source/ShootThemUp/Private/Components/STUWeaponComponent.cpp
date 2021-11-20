@@ -91,6 +91,7 @@ void USTUWeaponComponent::EquipWeapon(int32 WeaponIndex)
 
     AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponEquipSocketName);
     EquipAnimInProgress = true;
+    CurrentWeapon->EquipInProgress();
     PlayAnimMontage(EquipAnimMontage);
 }
 
@@ -152,6 +153,7 @@ void USTUWeaponComponent::OnEquipFinished(USkeletalMeshComponent* MeshComponent)
     if (!Character || Character->GetMesh() != MeshComponent) return;
 
     EquipAnimInProgress = false;
+    CurrentWeapon->EquipFinished();
 }
 
 void USTUWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)

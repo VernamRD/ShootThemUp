@@ -107,7 +107,7 @@ bool ASTUBaseWeapon::IsClipEmpty() const
 
 bool ASTUBaseWeapon::CanFire() const
 {
-    return GetWorld() && !IsAmmoEmpty() && !IsReloading();
+    return GetWorld() && !IsAmmoEmpty() && !IsReloading() && !Equiping;
 }
 
 void ASTUBaseWeapon::ChangeClip()
@@ -133,6 +133,16 @@ void ASTUBaseWeapon::ReloadFinished()
 
     Reloading = false;
     UE_LOG(LogBaseWeapon, Display, TEXT("------- Change clip is success --------"));
+}
+
+void ASTUBaseWeapon::EquipInProgress()
+{
+    Equiping = true;
+}
+
+void ASTUBaseWeapon::EquipFinished()
+{
+    Equiping = false;
 }
 
 bool ASTUBaseWeapon::CanReload() const

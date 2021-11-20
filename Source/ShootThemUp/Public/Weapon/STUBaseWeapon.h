@@ -7,7 +7,10 @@
 #include "STUCoreTypes.h"
 #include "STUBaseWeapon.generated.h"
 
+class ASTUBaseCharacter;
 class USkeletalMeshComponent;
+class UNiagaraSystem;
+class UNigaraComponent;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseWeapon : public AActor
@@ -26,11 +29,14 @@ public:
     void ChangeClip();
     void ReloadFinished();
 
-    bool CanReload() const;
-    bool IsReloading() const {return Reloading;}
+    void EquipInProgress();
+    void EquipFinished();
 
-    FWeaponUIData GetUIData() const {return UIData;}
-    FAmmoData GetAmmoData() const {return CurrentAmmo;}
+    bool CanReload() const;
+    bool IsReloading() const { return Reloading; }
+
+    FWeaponUIData GetUIData() const { return UIData; }
+    FAmmoData GetAmmoData() const { return CurrentAmmo; }
 
     bool TryToAddAmmo(int32 ClipsAmount);
 
@@ -69,6 +75,7 @@ protected:
     void LogAmmo();
 
     bool Reloading = false;
+    bool Equiping = false;
 
 private:
     FAmmoData CurrentAmmo;
