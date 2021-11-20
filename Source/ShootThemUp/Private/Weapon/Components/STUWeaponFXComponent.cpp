@@ -2,6 +2,7 @@
 
 #include "Weapon/Components/STUWeaponFXComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/DecalComponent.h"
@@ -39,5 +40,27 @@ void USTUWeaponFXComponent::PlayImpactFX(const FHitResult& Hit)
     if (DecalComponent)
     {
         DecalComponent->SetFadeOut(ImpactData.DacalData.LifeTime, ImpactData.DacalData.FadeOutTime);
+    }
+}
+
+void USTUWeaponFXComponent::PlayMuzzleFX(USkeletalMeshComponent* WeaponMesh, const FName MuzzleSocketName)
+{
+    // UNiagaraFunctionLibrary::SpawnSystemAttached();
+
+    UNiagaraFunctionLibrary::SpawnSystemAttached(MuzzleFX,  //
+        WeaponMesh,                                         //
+        MuzzleSocketName,                                   //
+        FVector::ZeroVector,                                //
+        FRotator::ZeroRotator,                              //
+        EAttachLocation::SnapToTarget,                      //
+        true);
+}
+
+void USTUWeaponFXComponent::PlayTraceFX(const FVector& TraceStart, const FVector& TraceEnd)
+{
+    const auto TraceFXComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), TraceFX, TraceStart);
+    if (TraceFXComponent)
+    {
+        TraceFXComponent->SetNiagaraVariableVec3(TraceTargetName, TraceEnd);
     }
 }
