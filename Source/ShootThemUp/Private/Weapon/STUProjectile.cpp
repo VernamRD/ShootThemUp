@@ -53,16 +53,16 @@ void ASTUProjectile::OnProjectileHit(
         UDamageType::StaticClass(),                  //
         {},                                          //
         this,                                        //
-        GetController(),                               //
+        GetController(),                             //
         DoFullDamage);
 
-    //DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24, FColor::Red, false, 5.0f);
+    // DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24, FColor::Red, false, 5.0f);
     WeaponFXComponent->PlayImpactFX(Hit);
 
     Destroy();
 }
 
-AController* ASTUProjectile::GetController() const 
+AController* ASTUProjectile::GetController() const
 {
     const auto Pawn = Cast<APawn>(GetOwner());
     return Pawn ? Pawn->GetController() : nullptr;
