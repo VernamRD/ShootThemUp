@@ -7,6 +7,7 @@
 #include "STUCoreTypes.h"
 #include "STUBaseWeapon.generated.h"
 
+class USTUWeaponComponent;
 class ASTUBaseCharacter;
 class USkeletalMeshComponent;
 class UNiagaraSystem;
@@ -24,6 +25,10 @@ public:
 
     virtual void StartFire();
     virtual void StopFire();
+
+    void SetComponentOwner(USTUWeaponComponent* STUWeaponComponent);
+
+    USTUWeaponComponent* GetComponentOwner() {return WeaponComponentOwner;};
 
     bool CanFire() const;
     void ChangeClip();
@@ -75,7 +80,8 @@ protected:
     void LogAmmo();
 
     bool Reloading = false;
-    bool Equiping = false;
+
+    USTUWeaponComponent* WeaponComponentOwner = nullptr;
 
 private:
     FAmmoData CurrentAmmo;

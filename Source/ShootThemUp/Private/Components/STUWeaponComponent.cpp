@@ -3,6 +3,7 @@
 #include "Components/STUWeaponComponent.h"
 #include "Weapon/STUBaseWeapon.h"
 #include "GameFramework/Character.h"
+#include "Player/STUBaseCharacter.h"
 #include "Animations/STUEquipFinishedAnimNotify.h"
 #include "Animations/STUReloadFinishedAnimNotify.h"
 #include "Animations/AnimUtils.h"
@@ -21,6 +22,9 @@ void USTUWeaponComponent::BeginPlay()
     Super::BeginPlay();
 
     checkf(WeaponData.Num() == WeaponNum, TEXT("Our character can hold only %i weapon items"), WeaponNum);
+
+    Owner = Cast<ASTUBaseCharacter>(GetOwner());
+    check(Owner);
 
     CurrentWeaponIndex = 0;
     InitAnimations();
@@ -52,6 +56,7 @@ void USTUWeaponComponent::SpawnWeapons()
 
         Weapon->OnClipEmpty.AddUObject(this, &USTUWeaponComponent::OnClipEmpty);
         Weapon->SetOwner(Character);
+        Weapon->SetComponentOwner(this);
         Weapons.Add(Weapon);
 
         AttachWeaponToSocket(Weapon, Character->GetMesh(), WeaponArmorySocketName);
@@ -91,7 +96,6 @@ void USTUWeaponComponent::EquipWeapon(int32 WeaponIndex)
 
     AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponEquipSocketName);
     EquipAnimInProgress = true;
-    CurrentWeapon->EquipInProgress();
     PlayAnimMontage(EquipAnimMontage);
 }
 
@@ -153,7 +157,6 @@ void USTUWeaponComponent::OnEquipFinished(USkeletalMeshComponent* MeshComponent)
     if (!Character || Character->GetMesh() != MeshComponent) return;
 
     EquipAnimInProgress = false;
-    CurrentWeapon->EquipFinished();
 }
 
 void USTUWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
@@ -167,7 +170,7 @@ void USTUWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent
 
 bool USTUWeaponComponent::CanFire() const
 {
-    return CurrentWeapon && !EquipAnimInProgress && !ReloadAnimInProgress;
+    return CurrentWeapon && !EquipAnimInProgress && !ReloadAnimInProgress && !Owner->IsRunning();
 }
 
 bool USTUWeaponComponent::CanEquip() const

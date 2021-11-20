@@ -1,6 +1,7 @@
 // Shoot Them Up Game. All Rights Reserved.
 
 #include "Weapon/STUBaseWeapon.h"
+#include "Components/STUWeaponComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
@@ -26,6 +27,11 @@ void ASTUBaseWeapon::BeginPlay()
     checkf(DefaultAmmo.Clips > 0, TEXT("Clips count couldn't be less or equal zero"));
 
     CurrentAmmo = DefaultAmmo;
+}
+
+void ASTUBaseWeapon::SetComponentOwner(USTUWeaponComponent* STUWeaponComponent) 
+{
+    WeaponComponentOwner = STUWeaponComponent;
 }
 
 void ASTUBaseWeapon::StartFire() {}
@@ -107,7 +113,7 @@ bool ASTUBaseWeapon::IsClipEmpty() const
 
 bool ASTUBaseWeapon::CanFire() const
 {
-    return GetWorld() && !IsAmmoEmpty() && !IsReloading() && !Equiping;
+    return GetWorld() && !IsAmmoEmpty() && !IsReloading() && WeaponComponentOwner->CanFire();
 }
 
 void ASTUBaseWeapon::ChangeClip()
@@ -133,16 +139,6 @@ void ASTUBaseWeapon::ReloadFinished()
 
     Reloading = false;
     UE_LOG(LogBaseWeapon, Display, TEXT("------- Change clip is success --------"));
-}
-
-void ASTUBaseWeapon::EquipInProgress()
-{
-    Equiping = true;
-}
-
-void ASTUBaseWeapon::EquipFinished()
-{
-    Equiping = false;
 }
 
 bool ASTUBaseWeapon::CanReload() const

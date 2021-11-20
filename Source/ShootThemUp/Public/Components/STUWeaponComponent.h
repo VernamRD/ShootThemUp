@@ -8,6 +8,7 @@
 #include "STUWeaponComponent.generated.h"
 
 class ASTUBaseWeapon;
+class ASTUBaseCharacter;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUWeaponComponent : public UActorComponent
@@ -21,6 +22,10 @@ public:
     void StopFire();
     void NextWeapon();
     void Reload();
+
+    bool CanFire() const;
+    bool CanEquip() const;
+    bool CanReload() const;
 
     bool GetWeaponUIData(FWeaponUIData& UIData) const;
     bool GetWeaponAmmoData(FAmmoData& AmmoData) const;
@@ -67,10 +72,8 @@ private:
     void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
     void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
 
-    bool CanFire() const;
-    bool CanEquip() const;
-    bool CanReload() const;
-
     void OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon);
     void ChangeClip();
+
+    ASTUBaseCharacter* Owner = nullptr;
 };
