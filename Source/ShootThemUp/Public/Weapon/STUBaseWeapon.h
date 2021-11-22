@@ -53,7 +53,7 @@ protected:
     FName MuzzleSocketName = "MuzzleSocket";
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
-    float TraceMaxDistance = 1500.0f;
+    float TraceMaxDistance = 8000.0f;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
     FAmmoData DefaultAmmo{30, 10, false};
