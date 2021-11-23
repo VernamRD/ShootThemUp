@@ -8,7 +8,7 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogRifleWeapon, All, All);
 
-ASTURifleWeapon::ASTURifleWeapon() 
+ASTURifleWeapon::ASTURifleWeapon()
 {
     WeaponFXComponent = CreateDefaultSubobject<USTUWeaponFXComponent>("WeaponFXComponent");
 }
@@ -48,11 +48,11 @@ void ASTURifleWeapon::MakeShot()
     FHitResult HitResult;
     MakeHit(HitResult, TraceStart, TraceEnd);
 
-    FVector TraceFXEnd = TraceEnd; 
+    FVector TraceFXEnd = TraceEnd;
 
     if (HitResult.bBlockingHit)
     {
-        TraceFXEnd = HitResult.ImpactPoint; 
+        TraceFXEnd = HitResult.ImpactPoint;
         MakeDamage(HitResult);
 
         WeaponFXComponent->PlayImpactFX(HitResult);
