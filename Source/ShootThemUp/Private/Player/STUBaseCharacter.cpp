@@ -149,6 +149,11 @@ void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta)
     HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 }
 
+bool ASTUBaseCharacter::IsDead() const
+{
+    return HealthComponent->IsDead();
+}
+
 void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 {
     const auto FallVelocityZ = -GetVelocity().Z;

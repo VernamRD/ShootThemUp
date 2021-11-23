@@ -170,7 +170,7 @@ void USTUWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent
 
 bool USTUWeaponComponent::CanFire() const
 {
-    return CurrentWeapon && !EquipAnimInProgress && !ReloadAnimInProgress && !Owner->IsRunning();
+    return CurrentWeapon && !EquipAnimInProgress && !ReloadAnimInProgress && !Owner->IsRunning() && !Owner->IsDead();
 }
 
 bool USTUWeaponComponent::CanEquip() const

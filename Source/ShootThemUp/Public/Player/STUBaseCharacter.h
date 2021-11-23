@@ -63,6 +63,9 @@ public:
     bool IsRunning() const;
 
     UFUNCTION(BlueprintCallable, Category = "Movement")
+    bool IsDead() const;
+
+    UFUNCTION(BlueprintCallable, Category = "Movement")
     float GetMovementDirection() const;
 
 private:
