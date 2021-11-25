@@ -4,6 +4,13 @@
 // Weapon
 class ASTUBaseWeapon;
 
+UENUM(BlueprintType)
+enum class EWeaponType : uint8
+{
+    Near UMETA(DisplayName = "Near"),
+    LongRange UMETA(DisplayName = "Long Range"),
+};
+
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnClipEmptySignature, ASTUBaseWeapon*)
 
     USTRUCT(BlueprintType) struct FAmmoData

@@ -130,7 +130,6 @@ bool ASTUBaseWeapon::CanFire() const
 
 void ASTUBaseWeapon::ChangeClip()
 {
-    UE_LOG(LogBaseWeapon, Display, TEXT("------- Change clip in progress --------"));
     Reloading = true;
 
     CurrentAmmo.Bullets = 0;
@@ -142,7 +141,6 @@ void ASTUBaseWeapon::ReloadFinished()
     {
         if (CurrentAmmo.Clips == 0)
         {
-            UE_LOG(LogBaseWeapon, Warning, TEXT("No more clips"));
             return;
         }
         CurrentAmmo.Clips--;
@@ -150,7 +148,6 @@ void ASTUBaseWeapon::ReloadFinished()
     CurrentAmmo.Bullets = DefaultAmmo.Bullets;
 
     Reloading = false;
-    UE_LOG(LogBaseWeapon, Display, TEXT("------- Change clip is success --------"));
 }
 
 bool ASTUBaseWeapon::CanReload() const

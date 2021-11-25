@@ -90,6 +90,5 @@ void USTUHealthComponent::PlayCameraShake(const float Damage)
 
     const auto ScaleShake = FMath::GetMappedRangeValueClamped(FVector2D(0.0f, MaxHealth*0.7f), FVector2D(0.0f, 1.0f), Damage);
 
-    UE_LOG(LogHealthComponent, Display, TEXT("Damage = %f \n Scale Shake = %f"), Damage, ScaleShake);
     Controller->PlayerCameraManager->StartCameraShake(CameraShake, ScaleShake);
 }

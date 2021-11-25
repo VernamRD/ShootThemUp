@@ -24,7 +24,6 @@ void USTUFireService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMem
         if (WeaponComponent)
         {
             HasAim ? WeaponComponent->StartFire() : WeaponComponent->StopFire();
-            UE_LOG(LogTemp, Display, TEXT("HasAim: %i"), HasAim);
         }
     }
 

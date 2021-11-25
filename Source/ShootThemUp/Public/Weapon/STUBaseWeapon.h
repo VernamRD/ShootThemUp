@@ -28,11 +28,13 @@ public:
 
     void SetComponentOwner(USTUWeaponComponent* STUWeaponComponent);
 
-    USTUWeaponComponent* GetComponentOwner() {return WeaponComponentOwner;};
+    USTUWeaponComponent* GetComponentOwner() { return WeaponComponentOwner; };
 
     bool CanFire() const;
     void ChangeClip();
     void ReloadFinished();
+
+    bool IsAmmoEmpty() const;
 
     void EquipInProgress();
     void EquipFinished();
@@ -42,12 +44,16 @@ public:
 
     FWeaponUIData GetUIData() const { return UIData; }
     FAmmoData GetAmmoData() const { return CurrentAmmo; }
+    EWeaponType GetWeaponType() const {return WeaponType;}
 
     bool TryToAddAmmo(int32 ClipsAmount);
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
     USkeletalMeshComponent* WeaponMesh;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+    EWeaponType WeaponType;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
     FName MuzzleSocketName = "MuzzleSocket";
@@ -73,7 +79,6 @@ protected:
     void MakeHit(FHitResult& HitResult, const FVector& TraceStart, FVector& TraceEnd);
 
     void DecreaseAmmo();
-    bool IsAmmoEmpty() const;
     bool IsClipEmpty() const;
     bool IsAmmoFull() const;
 

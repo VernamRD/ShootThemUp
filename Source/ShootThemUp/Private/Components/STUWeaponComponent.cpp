@@ -117,6 +117,11 @@ void USTUWeaponComponent::NextWeapon()
     EquipWeapon(CurrentWeaponIndex);
 }
 
+void USTUWeaponComponent::NextWeapon(EWeaponType WeaponType)
+{
+    NextWeapon();
+}
+
 void USTUWeaponComponent::PlayAnimMontage(UAnimMontage* Animation)
 {
     ACharacter* Character = Cast<ACharacter>(GetOwner());
