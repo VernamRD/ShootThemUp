@@ -34,18 +34,26 @@ void USTUChangeWeaponService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 
             const auto Controller = OwnerComp.GetAIOwner();
             const auto Blackboard = OwnerComp.GetBlackboardComponent();
+            if (!Blackboard || !Controller) break;
+
             const auto Enemy = Blackboard->GetValueAsObject(EnemyActorKey.SelectedKeyName);
+            if (!Enemy) break;
+
             const auto OwnerLocation = Controller->GetPawn()->GetActorLocation();
             const auto EnemyLocation = Cast<AActor>(Enemy)->GetActorLocation();
 
             if ((EnemyLocation - OwnerLocation).Size() <= Distance)
             {
                 const auto WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Controller->GetPawn());
+                check(WeaponComponent);
+
                 WeaponComponent->NextWeapon(EWeaponType::Near);
             }
             else
             {
                 const auto WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Controller->GetPawn());
+                check(WeaponComponent);
+
                 WeaponComponent->NextWeapon(EWeaponType::LongRange);
             }
 
