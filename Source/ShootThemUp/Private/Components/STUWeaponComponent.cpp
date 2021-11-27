@@ -29,6 +29,7 @@ void USTUWeaponComponent::BeginPlay()
     CurrentWeaponIndex = 0;
     InitAnimations();
     SpawnWeapons();
+    check(Weapons.Num() != 0);
     EquipWeapon(CurrentWeaponIndex);
 }
 
@@ -254,4 +255,17 @@ bool USTUWeaponComponent::TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, i
     }
 
     return false;
+}
+
+float USTUWeaponComponent::NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType)
+{
+    for (const auto Weapon : Weapons)
+    {
+        if (Weapon && Weapon->IsA(WeaponType))
+        {
+            return Weapon->GetAmmoPercent();
+        }
+    }
+
+    return 1.0f;
 }

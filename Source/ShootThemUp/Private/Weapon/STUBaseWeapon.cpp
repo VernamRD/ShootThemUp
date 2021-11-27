@@ -7,6 +7,7 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/Controller.h"
+#include "Kismet/KismetMathLibrary.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseWeapon, All, All);
 
@@ -111,6 +112,13 @@ void ASTUBaseWeapon::DecreaseAmmo()
     {
         OnClipEmpty.Broadcast(this);
     }
+}
+
+float ASTUBaseWeapon::GetAmmoPercent() const
+{
+    return CurrentAmmo.Infinite
+               ? 1.0f
+               : UKismetMathLibrary::Conv_IntToFloat(CurrentAmmo.Clips) / UKismetMathLibrary::Conv_IntToFloat(DefaultAmmo.Clips);
 }
 
 bool ASTUBaseWeapon::IsAmmoEmpty() const

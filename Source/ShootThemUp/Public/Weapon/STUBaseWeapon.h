@@ -46,6 +46,8 @@ public:
     FAmmoData GetAmmoData() const { return CurrentAmmo; }
     EWeaponType GetWeaponType() const {return WeaponType;}
 
+    float GetAmmoPercent() const;
+
     bool TryToAddAmmo(int32 ClipsAmount);
 
 protected:
