@@ -3,10 +3,14 @@
 #include "UI/STUPlayerHUDWidget.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/STUWeaponComponent.h"
+#include "Player/STUPlayerController.h"
+#include "STUGameModeBase.h"
 #include "STUUtils.h"
 
 bool USTUPlayerHUDWidget::Initialize()
 {
+    check(GetWorld());
+
     const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
     if (HealthComponent)
     {
@@ -66,4 +70,57 @@ bool USTUPlayerHUDWidget::IsPlayerSpectating() const
 {
     const auto Controller = GetOwningPlayer();
     return Controller && Controller->GetStateName() == NAME_Spectating;
+}
+
+// GameData
+
+FGameData USTUPlayerHUDWidget::GetSTUGameData() const
+{
+    return GetSTUGameMode()->GetGameData();
+}
+
+ASTUPlayerState* USTUPlayerHUDWidget::GetSTUPlayerState() const
+{
+    const auto Controller = GetOwningPlayer();
+    if (!Controller) return nullptr;
+
+    return Cast<ASTUPlayerState>(Controller->PlayerState);
+}
+
+ASTUGameModeBase* USTUPlayerHUDWidget::GetSTUGameMode() const
+{
+    return Cast<ASTUGameModeBase>(GetWorld()->GetAuthGameMode());
+}
+
+int32 USTUPlayerHUDWidget::GetCurrentRound() const
+{
+    if (!GetSTUGameMode()) return 0;
+
+    return GetSTUGameMode()->GetCurrentRound();
+}
+
+int32 USTUPlayerHUDWidget::GetRoundCountDown() const
+{
+    if (!GetSTUGameMode()) return 0;
+
+    return GetSTUGameMode()->GetRoundCountDown();
+}
+
+int32 USTUPlayerHUDWidget::GetRoundsNum() const
+{
+    return GetSTUGameData().RoundsNum;
+}
+
+int32 USTUPlayerHUDWidget::GetKills() const
+{
+    if (!GetSTUPlayerState()) return 0;
+
+    return GetSTUPlayerState()->GetKillsNum();
+}
+
+int32 USTUPlayerHUDWidget::GetDeaths() const
+{
+    if (!GetSTUPlayerState()) return 0;
+
+    return GetSTUPlayerState()->GetDeathNum();
 }

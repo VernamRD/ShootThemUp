@@ -7,6 +7,9 @@
 #include "STUCoreTypes.h"
 #include "STUPlayerHUDWidget.generated.h"
 
+class ASTUPlayerState;
+class ASTUGameModeBase;
+
 UCLASS()
 class SHOOTTHEMUP_API USTUPlayerHUDWidget : public UUserWidget
 {
@@ -34,8 +37,31 @@ public:
     UFUNCTION(BlueprintImplementableEvent, Category = "UI")
     void OnTakeDamage(float HealthDelta);
 
+    // GameData
+
+    UFUNCTION(BlueprintCallable, Category = "GameData")
+    int32 GetRoundCountDown() const;
+
+    UFUNCTION(BlueprintCallable, Category = "GameData")
+    int32 GetCurrentRound() const;
+
+    UFUNCTION(BlueprintCallable, Category = "GameData")
+    int32 GetRoundsNum() const;
+
+    UFUNCTION(BlueprintCallable, Category = "GameData")
+    int32 GetKills() const;
+
+    UFUNCTION(BlueprintCallable, Category = "GameData")
+    int32 GetDeaths() const;
+
+    UFUNCTION()
+
     virtual bool Initialize() override;
 
 private:
     void OnHealthChanged(float Health, float HealthDelta);
+
+    FGameData GetSTUGameData() const;
+    ASTUPlayerState* GetSTUPlayerState() const;
+    ASTUGameModeBase* GetSTUGameMode() const;
 };
