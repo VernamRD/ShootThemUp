@@ -61,6 +61,8 @@ public:
 private:
     void OnHealthChanged(float Health, float HealthDelta);
 
+    void OnNewPawn(APawn* NewPawn);
+
     FGameData GetSTUGameData() const;
     ASTUPlayerState* GetSTUPlayerState() const;
     ASTUGameModeBase* GetSTUGameMode() const;
