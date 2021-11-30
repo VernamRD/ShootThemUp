@@ -28,6 +28,8 @@ public:
 
     FGameData GetGameData() const { return GameData; }
 
+    void RespawnRequest(AController* Controller);
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Game")
     TSubclassOf<AAIController> AIControllerClass;
@@ -55,4 +57,6 @@ private:
     void SetPlayerColor(AController* Controller);
 
     void LogPlayerInfo();
+
+    void StartRespawn(AController* Controller);
 };
