@@ -245,7 +245,6 @@ bool USTUWeaponComponent::GetWeaponAmmoData(FAmmoData& AmmoData) const
 
 bool USTUWeaponComponent::TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount)
 {
-    UE_LOG(LogWeaponComponent, Display, TEXT("Try to add ammo"));
     for (const auto Weapon : Weapons)
     {
         if (Weapon && Weapon->IsA(WeaponType))

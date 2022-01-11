@@ -39,6 +39,7 @@ protected:
     UPROPERTY(EditDefaultsOnly, Category = "Material")
     FName MaterialColorName = "Paint Color";
 
+    virtual void OnHealthChanged(float Health, float HealthDelta);
     virtual void BeginPlay() override;
     virtual void OnDeath();
 
@@ -57,8 +58,6 @@ public:
     void SetPlayerColor(const FLinearColor& Color);
 
 private:
-    void OnHealthChanged(float Health, float HealthDelta);
-
     UFUNCTION()
     void OnGroundLanded(const FHitResult& Hit);
 };
