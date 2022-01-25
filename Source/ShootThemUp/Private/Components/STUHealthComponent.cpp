@@ -8,6 +8,7 @@
 #include "Camera/CameraShakeBase.h"
 #include "STUGameModeBase.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
+#include "Perception/AISense_Damage.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogHealthComponent, All, All);
 
@@ -86,6 +87,7 @@ void USTUHealthComponent::ApplyDamage(float Damage, AController* InstigatedBy)
     }
 
     PlayCameraShake(Damage);
+    ReportDamageEvent(Damage, InstigatedBy);
 }
 
 void USTUHealthComponent::Heal(const float HealAmount)
@@ -137,13 +139,26 @@ void USTUHealthComponent::Killed(AController* KillerController)
 float USTUHealthComponent::GetPointDamageModifier(AActor* DamagedActor, const FName& BoneName)
 {
     const auto Character = Cast<ACharacter>(DamagedActor);
-    if (!Character                                  //
-        || !Character->GetMesh()                    //
-        || !Character->GetMesh()->GetBodyInstance() //
-        || !Character->GetMesh()->GetBodyInstance(BoneName)->GetSimplePhysicalMaterial()) return 1.0f;
+    if (!Character                                   //
+        || !Character->GetMesh()                     //
+        || !Character->GetMesh()->GetBodyInstance()  //
+        || !Character->GetMesh()->GetBodyInstance(BoneName)->GetSimplePhysicalMaterial())
+        return 1.0f;
 
     const auto PhysMaterial = Character->GetMesh()->GetBodyInstance(BoneName)->GetSimplePhysicalMaterial();
     if (!DamageModifiers.Contains(PhysMaterial)) return 1.0f;
 
     return DamageModifiers[PhysMaterial];
+}
+
+void USTUHealthComponent::ReportDamageEvent(float Damage, AController* InstigatedBy)
+{
+    if (!InstigatedBy || !InstigatedBy->GetPawn() || !GetOwner()) return;
+
+    UAISense_Damage::ReportDamageEvent(GetWorld(),    //
+        GetOwner(),                                   //
+        InstigatedBy->GetPawn(),                      //
+        Damage,                                       //
+        InstigatedBy->GetPawn()->GetActorLocation(),  //
+        GetOwner()->GetActorLocation());
 }
