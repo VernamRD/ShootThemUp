@@ -12,6 +12,7 @@ class ASTUBaseCharacter;
 class USkeletalMeshComponent;
 class UNiagaraSystem;
 class UNigaraComponent;
+class USoundCue;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseWeapon : public AActor
@@ -44,7 +45,7 @@ public:
 
     FWeaponUIData GetUIData() const { return UIData; }
     FAmmoData GetAmmoData() const { return CurrentAmmo; }
-    EWeaponType GetWeaponType() const {return WeaponType;}
+    EWeaponType GetWeaponType() const { return WeaponType; }
 
     float GetAmmoPercent() const;
 
@@ -68,6 +69,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
     FWeaponUIData UIData;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+    USoundCue* FireSound;
 
     virtual void BeginPlay() override;
 

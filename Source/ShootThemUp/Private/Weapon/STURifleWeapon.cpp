@@ -5,6 +5,9 @@
 #include "DrawDebugHelpers.h"
 #include "Weapon/Components/STUWeaponFXComponent.h"
 #include "STUUtils.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
+#include "Components/AudioComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogRifleWeapon, All, All);
 
@@ -23,12 +26,19 @@ void ASTURifleWeapon::BeginPlay()
 void ASTURifleWeapon::StartFire()
 {
     GetWorldTimerManager().SetTimer(ShotTimerHandle, this, &ASTURifleWeapon::MakeShot, TimeBetweenShots, true);
+
     MakeShot();
 }
 
 void ASTURifleWeapon::StopFire()
 {
+
     GetWorldTimerManager().ClearTimer(ShotTimerHandle);
+
+    if (FireAudioComponent)
+    {
+        FireAudioComponent->SetPaused(true);
+    }
 }
 
 void ASTURifleWeapon::MakeShot()
@@ -36,6 +46,13 @@ void ASTURifleWeapon::MakeShot()
 
     if (!CanFire())
     {
+        if (FireAudioComponent)
+        {
+            if (!FireAudioComponent->bIsPaused)
+            {
+                FireAudioComponent->SetPaused(true);
+            }
+        }
         return;
     }
 
@@ -62,6 +79,16 @@ void ASTURifleWeapon::MakeShot()
     WeaponFXComponent->PlayMuzzleFX(WeaponMesh, MuzzleSocketName);
 
     DecreaseAmmo();
+
+    if (!FireAudioComponent)
+    {
+        FireAudioComponent = UGameplayStatics::SpawnSoundAttached(FireSound, WeaponMesh, MuzzleSocketName);
+        FireAudioComponent->SetPaused(true);
+    }
+    else
+    {
+        FireAudioComponent->SetPaused(false);
+    }
 }
 
 bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const

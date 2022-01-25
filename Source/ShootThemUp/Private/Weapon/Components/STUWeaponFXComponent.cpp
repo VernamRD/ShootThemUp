@@ -4,8 +4,11 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
+#include "Sound/SoundCue.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/DecalComponent.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogSTUWeaponFXComp, All, All);
 
 USTUWeaponFXComponent::USTUWeaponFXComponent()
 {
@@ -14,13 +17,28 @@ USTUWeaponFXComponent::USTUWeaponFXComponent()
 
 void USTUWeaponFXComponent::PlayImpactFX(const FHitResult& Hit)
 {
+    if (!DefaultImpactData.ImpactSound)
+        UE_LOG(LogSTUWeaponFXComp, Warning, TEXT("Default Impact sound is NULL in: %s"), *GetOwner()->GetName());
+    if (!DefaultImpactData.NiagaraEffect)
+        UE_LOG(LogSTUWeaponFXComp, Warning, TEXT("Default Niagara Effect is NULL in: %s"), *GetOwner()->GetName());
+
     auto ImpactData = DefaultImpactData;
     if (Hit.PhysMaterial.IsValid())
     {
         const auto PhysMat = Hit.PhysMaterial.Get();
         if (ImpactDataMap.Contains(PhysMat))
         {
-            ImpactData = ImpactDataMap[PhysMat];
+            if (ImpactDataMap.Find(PhysMat)->ImpactSound  //
+                && ImpactDataMap.Find(PhysMat)->NiagaraEffect)
+            {
+                ImpactData = ImpactDataMap[PhysMat];
+            }
+            else
+            {
+                UE_LOG(LogSTUWeaponFXComp, Warning,
+                    TEXT("%s - One or more elements corresponding to the physical material %s in ImpactData is NULL"),  //
+                    *GetOwner()->GetName(), *PhysMat->GetName());
+            }
         }
     }
 
@@ -41,6 +59,9 @@ void USTUWeaponFXComponent::PlayImpactFX(const FHitResult& Hit)
     {
         DecalComponent->SetFadeOut(ImpactData.DacalData.LifeTime, ImpactData.DacalData.FadeOutTime);
     }
+
+    // Sound
+    UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactData.ImpactSound, Hit.ImpactPoint);
 }
 
 void USTUWeaponFXComponent::PlayMuzzleFX(USkeletalMeshComponent* WeaponMesh, const FName MuzzleSocketName)

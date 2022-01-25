@@ -7,6 +7,8 @@
 #include "STURifleWeapon.generated.h"
 
 class USTUWeaponFXComponent;
+class UAudioComponent;
+class USoundCue;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTURifleWeapon : public ASTUBaseWeapon
@@ -31,6 +33,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "VFX")
     USTUWeaponFXComponent* WeaponFXComponent;
+
+    UPROPERTY()
+    UAudioComponent* FireAudioComponent;
 
     virtual void BeginPlay() override;
     virtual void MakeShot() override;

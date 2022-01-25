@@ -4,6 +4,8 @@
 #include "Weapon/STUProjectile.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 void ASTULauncherWeapon::StartFire()
 {
@@ -12,6 +14,12 @@ void ASTULauncherWeapon::StartFire()
 
 void ASTULauncherWeapon::MakeShot()
 {
+    if (IsAmmoEmpty())
+    {
+        UGameplayStatics::SpawnSoundAtLocation(GetWorld(), NoAmmoSound, GetActorLocation());
+        return;
+    }
+
     if (!CanFire()) return;
 
     FVector TraceStart, TraceEnd;
@@ -34,6 +42,7 @@ void ASTULauncherWeapon::MakeShot()
     }
 
     DecreaseAmmo();
+    UGameplayStatics::SpawnSoundAttached(FireSound, WeaponMesh, MuzzleSocketName);
 }
 
 void ASTULauncherWeapon::PlayMuzzleFX()

@@ -30,7 +30,6 @@ ASTUAICharacter::ASTUAICharacter(const FObjectInitializer& ObjInit)
 void ASTUAICharacter::BeginPlay()
 {
     Super::BeginPlay();
-
     check(HealthWidgetComponent);
 }
 
